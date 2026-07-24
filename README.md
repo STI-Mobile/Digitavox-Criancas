@@ -35,25 +35,42 @@ A evolução do aplicativo principal permanece sob responsabilidade da STI no re
 
 ## Requisitos de desenvolvimento
 
-- .NET SDK 8.0.x (Android/iOS)
-- .NET SDK 9.0.x (Windows)
-- Workloads MAUI conforme plataforma alvo
-  - Android: `maui`, `android`
-  - iOS (macOS): `maui`, `ios`, `maccatalyst`
-  - Windows (Windows): `maui`
+- .NET SDK 10.0.301, conforme definido em `global.json`.
+- Workload MAUI correspondente à plataforma alvo:
+  - Android: `maui-android`
+  - iOS (macOS): `maui-ios`
+  - Mac Catalyst (macOS): `maui-maccatalyst`
+  - Windows (Windows): `maui-windows`
 
 ## Build
 
+Execute os comandos a partir da raiz do repositório. O restore é direcionado ao
+framework desejado para não exigir os workloads das demais plataformas.
+
+### Android
+
 ```bash
-dotnet restore
-dotnet build Digitavox/Digitavox.csproj -f net8.0-android
-dotnet build Digitavox/Digitavox.csproj -f net8.0-ios
-dotnet build Digitavox/Digitavox.csproj -f net9.0-windows10.0.19041.0
+dotnet restore Digitavox.csproj -p:TargetFramework=net10.0-android
+dotnet build Digitavox.csproj -f net10.0-android --no-restore
+```
+
+### iOS (macOS)
+
+```bash
+dotnet restore Digitavox.csproj -p:TargetFramework=net10.0-ios
+dotnet build Digitavox.csproj -f net10.0-ios --no-restore
+```
+
+### Windows (Windows)
+
+```powershell
+dotnet restore Digitavox.csproj -p:TargetFramework=net10.0-windows10.0.19041.0
+dotnet build Digitavox.csproj -f net10.0-windows10.0.19041.0 --no-restore
 ```
 
 ## Assinatura Android (release)
 
-1. Copie `Digitavox/Signing.example.props` para `Digitavox/Signing.local.props`.
+1. Copie `Signing.example.props` para `Signing.local.props`.
 2. Preencha credenciais e caminho do keystore local.
 
 `Signing.local.props` é local e não deve ser versionado.
